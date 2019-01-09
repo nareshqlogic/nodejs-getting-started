@@ -27,9 +27,9 @@ module.exports = DATA_BACKEND => {
   });
 
   // clean up
-  after(() => {
+  after(async () => {
     appConfig.set('DATA_BACKEND', originalDataBackend);
-    deleteBook(id);
+    await deleteBook(id);
   });
 
   // setup a book
@@ -131,8 +131,8 @@ module.exports = DATA_BACKEND => {
   });
 
   // setup a book
-  function addBook() {
-    return getRequest(testConfig)
+  async function addBook() {
+    return await getRequest(testConfig)
       .post('/api/books')
       .send({title: 'my book'})
       .expect(200)
@@ -144,9 +144,9 @@ module.exports = DATA_BACKEND => {
   }
 
   // delete the book
-  function deleteBook(id) {
+  async function deleteBook(id) {
     if (id) {
-      return getRequest(testConfig)
+      return await getRequest(testConfig)
         .delete(`/api/books/${id}`)
         .expect(200);
     }
